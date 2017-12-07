@@ -18,15 +18,14 @@ console.log(word);
 document.onkeyup = function(event){
 
 	var input = event.key;
-	console.log(input);
-
-	// assign the unicode value of the pressed key to x
-	var x = event.charCode;
+	console.log("letter guessed: " + input);
+	console.log("index of the letter: " + word.indexOf(input))
 
 	// only execute if the key pressed is a letter 
 	//(lowercase or uppercase)
-	if ((x >= 65 && x <= 90) || (x >= 97 && x <= 122)){
+	if ((input >="a" && input <= "z") || (input >= "A" && input <= "Z")){
 		// var input = event.key;
+		console.log("you have determined input is a letter");
 
 		// if the guessed letter is in the word
 		if (word.indexOf(input)!= -1){
@@ -37,11 +36,13 @@ document.onkeyup = function(event){
 		}
 		else{
 			numGuesses--;
+			console.log("guesses left: " + numGuesses);
 			//add the guessed letter to the guessed array
 			guessed.push(input);
 			//display guessed letters
 			updateGuesses();
-			console.log(input);
+			updateGuessesLeft();
+			console.log(guessed);
 
 			if (numGuesses==0){
 				//lost
@@ -57,4 +58,9 @@ document.onkeyup = function(event){
 	function updateGuesses(){
 		var lettersGuessedHeader = document.getElementById("lettersGuessed");
 		lettersGuessedHeader.textContent = guessed;
+}
+
+function updateGuessesLeft(){
+	var guessHeader = document.getElementById("guessesLeft");
+	guessHeader.textContent = numGuesses;
 }
