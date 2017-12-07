@@ -2,6 +2,10 @@
 var wins = 0;
 var numGuesses = 8;
 
+var letters = ["a", "b", "c", "d", "e", "f", "g",
+"h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+"t", "u", "v", "w", "x", "y", "z"];
+
 var list = ["azalea", "buttercup", "carnation", "chrysanthemum",
 "cornflower", "crocus", "daffodil", "dahlia", "daisy", "dandelion",
 "iris", "lavender", "lilac", "lily", "marigold", "orchid",
@@ -34,8 +38,14 @@ document.onkeyup = function(event){
 	var index = word.indexOf(input);
 	// only execute if the key pressed is a letter 
 	//(lowercase or uppercase)
-	if ((input >="a" && input <= "z") || (input >= "A" && input <= "Z")){
+
+
+		// check if the user input is a letter (if not, nothing will happen)
+		// Im sure there is a better way to do this
+		if (letters.indexOf(input.toLowerCase()) != -1){
+
 		// var input = event.key;
+
 		console.log("you have determined input is a letter");
 
 		// if the guessed letter is in the word
@@ -65,13 +75,15 @@ document.onkeyup = function(event){
 			//if got the whole word (there are no dashes left in wordDisplay)
 			if (wordDisplay.indexOf("_") == -1){
 				//display you won message
+				
 				console.log("You Won");
+				wins+=1;
+				updateWins();
 
 				//show a picture?
 
 				//restart the game
-
-				//won
+				resetGame();
 			}
 		}
 
@@ -86,7 +98,13 @@ document.onkeyup = function(event){
 			console.log(guessed);
 
 			if (numGuesses==0){
-				//lost
+				//display losing message and the answer
+				console.log("You Lost")
+
+				updateLosses();
+
+				resetGame();
+				//stop the counter
 			}
 
 			console.log(word.indexOf(input))
@@ -105,3 +123,46 @@ document.onkeyup = function(event){
 		var guessHeader = document.getElementById("guessesLeft");
 		guessHeader.textContent = numGuesses;
 	}
+
+	function updateWins(){
+		var winHeader = document.getElementById("numWins");
+		winHeader.textContent = wins;
+
+		updateMessage("won");
+	}
+
+	function updateLosses(){
+
+		updateMessage("lost");
+	}
+
+	function updateMessage(str){
+		var messageHeader = document.getElementById("message");
+		messageHeader.textContent = ("You " + str + "! The answer was " + word);
+	}
+
+	function resetGame(){
+		numGuesses = 8;
+		word = list[Math.floor(Math.random() * list.length)];
+		console.log(wins);
+		console.log("New word: " + word);
+		
+
+		//clear word Display and put correct number of dashes
+		// and put new word in word array
+		wordArray = word.split("");
+
+		wordDisplay=[];
+		console.log("word Display: " + wordDisplay);
+		for (var i = 0; i < word.length; i++){
+			wordDisplay.push("_");
+		}
+
+		console.log("word Array: " + wordArray);
+		console.log("word Display: " + wordDisplay);
+
+//clear already guessed letters
+guessed=[];
+
+
+}
